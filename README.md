@@ -19,6 +19,10 @@ docker compose -f docker-compose.yml up
 
 ![img.png](img.png)
 
+# Explication
+This message occasionally generate event and the Order project publish in Exchange
+and the Exchange send to all queues connected. If in process event will error then will retry for three times
+if error continues then send the Dead Letter queue.
 
 [//]: # (flowchart TD)
 
