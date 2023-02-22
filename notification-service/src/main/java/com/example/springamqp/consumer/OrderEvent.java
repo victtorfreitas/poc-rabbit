@@ -1,8 +1,5 @@
 package com.example.springamqp.consumer;
 
-import java.math.BigDecimal;
-
-
 public class OrderEvent {
 
   private Long id;
