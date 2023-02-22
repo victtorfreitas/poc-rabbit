@@ -6,12 +6,12 @@ import java.math.BigDecimal;
 public class OrderEvent {
 
   private Long id;
-  private BigDecimal valor;
+  private Double valor;
 
   public OrderEvent() {
   }
 
-  public OrderEvent(Long id, BigDecimal valor) {
+  public OrderEvent(Long id, Double valor) {
     this.id = id;
     this.valor = valor;
   }
@@ -24,11 +24,11 @@ public class OrderEvent {
     this.id = id;
   }
 
-  public BigDecimal getValor() {
+  public Double getValor() {
     return valor;
   }
 
-  public void setValor(BigDecimal valor) {
+  public void setValor(Double valor) {
     this.valor = valor;
   }
 }

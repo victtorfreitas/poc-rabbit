@@ -1,7 +1,6 @@
 package com.example.springamqp.config;
 
 import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,6 +15,11 @@ public class RabbitMqConfig {
   @Bean
   public FanoutExchange fanoutExchange(){
     return new FanoutExchange("orders.v1.order-created");
+  }
+
+  @Bean
+  public FanoutExchange fanoutExchangeDLX(){
+    return new FanoutExchange("orders.v1.order-created.dlx");
   }
 
   @Bean

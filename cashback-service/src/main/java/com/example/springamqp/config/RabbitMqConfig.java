@@ -1,5 +1,7 @@
 package com.example.springamqp.config;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
@@ -18,12 +20,36 @@ public class RabbitMqConfig {
 
   @Bean
   public Queue queue() {
-    return new Queue("orders.v1.order-created.generate-cashback");
+    Map<String, Object> args = new HashMap<>();
+    args.put("x-dead-letter-exchange", "orders.v1.order-created.dlx");
+//    args.put("x-dead-letter-routing-key", "orders.v1.order-created.dlx.generate-cashback.dlq");
+//    return QueueBuilder.durable("orders.v1.order-created.generate-cashback")
+//        .deadLetterExchange("orders.v1.order-created.dlx").build();
+    return new Queue("orders.v1.order-created.generate-cashback",
+        true, false, false, args);
   }
 
   @Bean
-  public Binding binding(Queue queue) {
-    final var exchange = new FanoutExchange("orders.v1.order-created");
+  public Binding binding() {
+    Queue queue = queue();
+    FanoutExchange exchange = new FanoutExchange("orders.v1.order-created");
+    return BindingBuilder.bind(queue).to(exchange);
+  }
+
+  @Bean
+  public Queue queueDLQ() {
+    return new Queue("orders.v1.order-created.dlx.generate-cashback.dlq");
+  }
+
+  @Bean
+  public Queue queueDLQParkingLot() {
+    return new Queue("orders.v1.order-created.dlx.generate-cashback.dlq.parting-lot ");
+  }
+
+  @Bean
+  public Binding bindingDLQ() {
+    Queue queue = queueDLQ();
+    FanoutExchange exchange = new FanoutExchange("orders.v1.order-created.dlx");
     return BindingBuilder.bind(queue).to(exchange);
   }
 
